@@ -1,0 +1,709 @@
+/* ==========================================================================
+   Totson Marketing
+   Design system. Everything the site looks like is in this one file.
+
+   Palette is deliberately tiny: near-black ink, Apple's warm grey surface,
+   pure white, pure black, and exactly one accent (gold) that is only ever
+   allowed to appear on "after" data, the logo mark, and link underlines.
+   No gradients. No glass. No decorative colour.
+   ========================================================================== */
+
+:root {
+  --ink:        #1d1d1f;   /* all primary text */
+  --ink-2:      #6e6e73;   /* secondary text */
+  --ink-3:      #86868b;   /* tertiary, "before" data series */
+  --surface:    #f5f5f7;   /* the grey section background */
+  --line:       #d2d2d7;   /* hairlines */
+  --gold:       #c8952f;   /* the one accent — "after" data only */
+  --gold-soft:  #f0e2c6;
+
+  --page:  980px;          /* Apple's content column */
+  --wide: 1180px;
+
+  --sans: "SF Pro Display", -apple-system, BlinkMacSystemFont,
+          "Segoe UI Variable Display", "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+
+body {
+  margin: 0;
+  background: #fff;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.5;
+  letter-spacing: -0.012em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* every number on the page lines up in its column */
+svg text { font-variant-numeric: tabular-nums; }
+
+a { color: inherit; }
+
+h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.028em; }
+
+h1 {
+  font-size: clamp(2.9rem, 7.2vw, 5.6rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+h2 {
+  font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+  line-height: 1.08;
+}
+
+h3 { font-size: clamp(1.35rem, 2.2vw, 1.75rem); line-height: 1.2; }
+
+p { margin: 0 0 1.15em; }
+
+.wrap { max-width: var(--page); margin: 0 auto; padding: 0 22px; }
+
+.skip {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--ink); color: #fff; padding: 12px 18px;
+}
+.skip:focus { left: 12px; top: 12px; }
+
+/* --------------------------------------------------------------------------
+   Scroll reveal. Short travel, long ease — the Apple signature is restraint.
+   -------------------------------------------------------------------------- */
+/* The hidden starting state is scoped to .js, which an inline script in <head>
+   sets. If scripting fails, every word on the page is still visible — a
+   marketing site must never depend on JS to show its own copy. */
+.js .rv {
+  opacity: 0;
+  transform: translateY(26px);
+}
+.rv { transition: opacity 0.85s var(--ease), transform 0.85s var(--ease); }
+.js .rv.in { opacity: 1; transform: none; }
+.rv.d1 { transition-delay: 0.09s; }
+.rv.d2 { transition-delay: 0.18s; }
+.rv.d3 { transition-delay: 0.27s; }
+.rv.d4 { transition-delay: 0.36s; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .rv { opacity: 1; transform: none; transition: none; }
+  .ticker-track { animation: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   Shared type
+   -------------------------------------------------------------------------- */
+.eyebrow, .kicker {
+  margin: 0 0 18px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.lede {
+  max-width: 34em;
+  margin: 26px 0 0;
+  font-size: clamp(1.15rem, 1.9vw, 1.45rem);
+  line-height: 1.42;
+  color: var(--ink-2);
+  letter-spacing: -0.016em;
+}
+
+.sec-head { max-width: 40em; margin: 0 0 62px; }
+.sec-head .sec-sub {
+  margin: 22px 0 0;
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+.sec-head.light .kicker { color: rgba(255,255,255,0.5); }
+.sec-head.light .sec-sub { color: rgba(255,255,255,0.68); }
+
+.muted-line { color: var(--ink-3); }
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+.btn {
+  display: inline-block;
+  background: var(--ink);
+  color: #fff;
+  text-decoration: none;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  padding: 13px 26px;
+  border-radius: 980px;
+  transition: background 0.22s var(--ease), transform 0.22s var(--ease);
+  white-space: nowrap;
+}
+.btn:hover { background: #000; transform: translateY(-1px); }
+.btn-sm { font-size: 14px; padding: 8px 17px; }
+.btn-lg { font-size: 19px; padding: 17px 40px; }
+
+.btn-gold { background: var(--gold); color: #1d1d1f; }
+.btn-gold:hover { background: #b98526; }
+
+.btn-ghost {
+  background: transparent;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.32);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.09); }
+
+.link-arrow {
+  text-decoration: none;
+  font-size: 17px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--gold);
+  padding-bottom: 2px;
+  transition: opacity 0.2s;
+}
+.link-arrow::after { content: " ›"; }
+.link-arrow:hover { opacity: 0.62; }
+
+/* --------------------------------------------------------------------------
+   Nav — 48px, translucent, blurred. Straight out of the Apple global header.
+   -------------------------------------------------------------------------- */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(255,255,255,0.72);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.nav-in {
+  max-width: var(--wide);
+  margin: 0 auto;
+  height: 52px;
+  padding: 0 22px;
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.brand {
+  display: inline-flex; align-items: center; gap: 9px;
+  text-decoration: none; flex-shrink: 0;
+}
+.brand-mark { width: 24px; height: 24px; display: block; }
+.brand-mark rect { fill: var(--ink); }
+.brand-bars { fill: var(--gold); }
+.brand-word {
+  font-size: 18px; font-weight: 600; letter-spacing: -0.024em; color: var(--ink);
+}
+
+.nav-links {
+  display: flex; gap: 26px; margin-left: auto;
+}
+.nav-links a {
+  text-decoration: none;
+  font-size: 13px;
+  color: var(--ink);
+  opacity: 0.82;
+  transition: opacity 0.18s;
+}
+.nav-links a:hover { opacity: 1; }
+.nav-links a.active { opacity: 1; font-weight: 600; }
+
+.nav-toggle {
+  display: none; margin-left: auto;
+  background: none; border: 0; padding: 8px; cursor: pointer;
+}
+.nav-toggle span {
+  display: block; width: 19px; height: 1.5px; background: var(--ink);
+  transition: transform 0.28s var(--ease), opacity 0.2s;
+}
+.nav-toggle span + span { margin-top: 5px; }
+.nav-toggle[aria-expanded="true"] span:first-child { transform: translateY(3.2px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:last-child  { transform: translateY(-3.2px) rotate(-45deg); }
+
+.nav-drawer { display: none; border-top: 1px solid var(--line); padding: 8px 22px 18px; }
+.nav-drawer a {
+  display: block; padding: 13px 0; text-decoration: none; font-size: 20px;
+  font-weight: 500; letter-spacing: -0.02em;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* --------------------------------------------------------------------------
+   Hero
+   -------------------------------------------------------------------------- */
+.hero { padding: clamp(88px, 13vw, 168px) 0 0; overflow: hidden; }
+.hero-cta {
+  display: flex; align-items: center; gap: 30px;
+  margin-top: 44px; flex-wrap: wrap;
+}
+
+.hero-ticker {
+  margin-top: clamp(80px, 11vw, 132px);
+  padding: 26px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+.ticker-track {
+  display: flex; align-items: center; gap: 26px; width: max-content;
+  animation: ticker 46s linear infinite;
+}
+.ticker-track span {
+  font-size: 14px; letter-spacing: 0.02em; color: var(--ink-3); white-space: nowrap;
+}
+.ticker-track i { color: var(--gold); font-style: normal; }
+@keyframes ticker { to { transform: translateX(-50%); } }
+
+/* --------------------------------------------------------------------------
+   Our approach — grey, to break the white run under the hero
+   -------------------------------------------------------------------------- */
+.approach { background: var(--surface); padding: clamp(80px, 11vw, 132px) 0; }
+.approach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 46px; }
+.ap { border-top: 1px solid var(--ink); padding-top: 22px; }
+.ap h3 { font-size: 1.16rem; margin-bottom: 13px; letter-spacing: -0.022em; }
+.ap p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink-2); }
+
+/* --------------------------------------------------------------------------
+   Account types — the three categories we take over
+   -------------------------------------------------------------------------- */
+.results { background: var(--surface); padding: clamp(88px, 12vw, 148px) 0; }
+
+.case-tabs { display: flex; gap: 9px; margin-bottom: 44px; flex-wrap: wrap; }
+.case-tabs button {
+  font-family: inherit; font-size: 14px; font-weight: 500;
+  padding: 9px 20px; border-radius: 980px; cursor: pointer;
+  background: transparent; color: var(--ink);
+  border: 1px solid var(--line);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.case-tabs button:hover { border-color: var(--ink-3); }
+.case-tabs button[aria-selected="true"] {
+  background: var(--ink); color: #fff; border-color: var(--ink);
+}
+
+.case {
+  background: #fff; border-radius: 20px;
+  padding: clamp(30px, 4.4vw, 54px);
+}
+.case-head {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  gap: 30px; padding-bottom: 26px; border-bottom: 1px solid var(--line);
+}
+.case-meta { margin: 9px 0 0; font-size: 14px; color: var(--ink-3); }
+
+.case-story {
+  margin: 26px 0 0; max-width: 44em;
+  font-size: 17px; line-height: 1.6; color: var(--ink-2);
+}
+
+.case-cols {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 46px; margin-top: 44px;
+}
+.case-col h4 {
+  font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink-3); margin: 0 0 20px;
+}
+
+.case-list { list-style: none; margin: 0; padding: 0; }
+.case-list li {
+  position: relative; padding-left: 26px; margin-bottom: 15px;
+  font-size: 15.5px; line-height: 1.55; color: var(--ink-2);
+}
+.case-list li:last-child { margin-bottom: 0; }
+
+/* A dash for what we inherit, a gold arrow for what we change — the same
+   grey/gold split the rest of the site uses for before and after. */
+.case-list.is-bad li::before {
+  content: ''; position: absolute; left: 0; top: 11px;
+  width: 13px; height: 1.5px; background: var(--ink-3);
+}
+.case-list.is-good li::before {
+  content: '→'; position: absolute; left: 0; top: 0;
+  color: var(--gold); font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Unit economics diagram — inverted, so the argument lands hard
+   -------------------------------------------------------------------------- */
+.econ { background: #000; color: #fff; padding: clamp(88px, 12vw, 148px) 0; }
+.econ .kicker { color: var(--gold); }
+
+.econ-diagram svg { display: block; width: 100%; height: auto; }
+
+.ed-title { font: 600 13px var(--sans); letter-spacing: 0.16em; fill: rgba(255,255,255,0.5); }
+.ed-in    { font: 500 13px var(--sans); fill: rgba(255,255,255,0.9); text-anchor: middle; }
+.ed-in.on-gold { fill: #1d1d1f; font-weight: 600; }
+.ed-note  { font: 500 15px var(--sans); fill: #fff; }
+.ed-note.dim { fill: rgba(255,255,255,0.45); font-weight: 400; font-size: 14px; }
+.ed-foot  { font: 400 13px var(--sans); fill: rgba(255,255,255,0.4); }
+.ed-lead  { stroke: #86868b; stroke-width: 1; }
+
+.ed-cogs { fill: #3a3a3c; }
+.ed-ship { fill: #545456; }
+.ed-ad   { fill: #6e6e73; }
+.ed-marg { fill: var(--gold); }
+
+.econ-key {
+  list-style: none; margin: 46px 0 0; padding: 0;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px 46px;
+}
+.econ-key li {
+  display: flex; gap: 12px; align-items: flex-start;
+  font-size: 14.5px; line-height: 1.5; color: rgba(255,255,255,0.66);
+}
+.econ-key i { width: 13px; height: 13px; border-radius: 3px; flex-shrink: 0; margin-top: 4px; }
+.k-cogs { background: #3a3a3c; }
+.k-ship { background: #545456; }
+.k-ad   { background: #6e6e73; }
+.k-marg { background: var(--gold); }
+
+/* --------------------------------------------------------------------------
+   The Compounding Loop diagram
+   -------------------------------------------------------------------------- */
+.loop { padding: clamp(88px, 12vw, 148px) 0; }
+.loop-diagram { max-width: 900px; margin: 0 auto; }
+.loop-diagram svg { display: block; width: 100%; height: auto; }
+
+.lp-ring {
+  fill: none; stroke: var(--line); stroke-width: 1; stroke-dasharray: 3 7;
+}
+.lp-ringlabel {
+  font: 600 10.5px var(--sans); letter-spacing: 0.2em; fill: var(--ink-3);
+}
+.lp-arc { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+.lp-spoke { stroke: var(--gold); stroke-width: 1.5; stroke-dasharray: 4 4; }
+
+.lp-node rect {
+  fill: #fff; stroke: var(--ink); stroke-width: 1.5;
+}
+.lp-n { font: 600 15px var(--sans); letter-spacing: 0.04em; fill: var(--ink); }
+.lp-d { font: 400 11.5px var(--sans); fill: var(--ink-2); }
+
+.lp-core { fill: var(--ink); }
+.lp-core-t { font: 600 11.5px var(--sans); letter-spacing: 0.08em; fill: #fff; }
+.lp-core-s { font: 400 10px var(--sans); fill: var(--gold); }
+
+.lp-edge { font: 400 11px var(--sans); fill: var(--ink-3); font-style: italic; }
+.lp-foot { font: 500 14px var(--sans); letter-spacing: -0.012em; fill: var(--ink); }
+
+/* --------------------------------------------------------------------------
+   Services folder — the scroll-driven hero that opens into three service
+   cards. `--p` is the section's scroll progress (0 closed → 1 fully open),
+   written by main.js as a single number on .folder-pin. Everything else —
+   the flap rotation, the stagger on each card — is a plain CSS calc()
+   derived from that one value, so JS only ever sets one number per frame.
+   The 1 fallback on --p means a page with no JS renders already-open.
+
+   Stage timings, as a fraction of the section's scroll range: the flap
+   opens over 0 → 0.35, then the three cards rise at 0.24, 0.42 and 0.60,
+   each over a 0.30 window. The last one finishes at 0.90, leaving a little
+   scroll at the end so the finished folder is held before it moves away.
+   -------------------------------------------------------------------------- */
+.folder-hero { height: 300vh; position: relative; background: #fff; }
+
+.folder-pin {
+  position: sticky; top: 52px; height: calc(100vh - 52px); min-height: 460px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 26px; overflow: hidden; background: #fff;
+
+  --p: 1;
+  --pf: clamp(0, calc(var(--p) / 0.35), 1);
+  --p1: clamp(0, calc((var(--p) - 0.24) / 0.30), 1);
+  --p2: clamp(0, calc((var(--p) - 0.42) / 0.30), 1);
+  --p3: clamp(0, calc((var(--p) - 0.60) / 0.30), 1);
+}
+
+.folder-stage {
+  position: relative;
+  width: min(640px, 90vw); height: min(330px, 44vh);
+  perspective: 1500px;
+}
+
+.folder-back {
+  position: absolute; inset: 0; z-index: 1;
+  border-radius: 20px; border: 1.5px solid var(--ink); background: var(--surface);
+}
+
+.folder-doc-card {
+  position: absolute; top: 15%; z-index: 2;
+  width: 28%;
+  padding: 14px 15px;
+  border-radius: 12px;
+  background: #fff; border: 1.5px solid var(--line);
+}
+.folder-doc-card h4 { margin: 0 0 6px; font-size: 13.5px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); }
+.folder-doc-card p { margin: 0; font-size: 11.5px; line-height: 1.5; color: var(--ink-2); }
+
+/* Three across, with the middle one centred rather than measured off an
+   edge — its translateX(-50%) has to be re-stated in the animated transform
+   because a later `transform` replaces the whole property, not just part. */
+.fdc-1 {
+  left: 4%;
+  transform: translateY(calc(6px - var(--p1) * 34px)) scale(calc(0.82 + var(--p1) * 0.18));
+  opacity: var(--p1);
+}
+.fdc-2 {
+  left: 50%;
+  transform: translateX(-50%) translateY(calc(6px - var(--p2) * 34px)) scale(calc(0.82 + var(--p2) * 0.18));
+  opacity: var(--p2);
+}
+.fdc-3 {
+  right: 4%;
+  transform: translateY(calc(6px - var(--p3) * 34px)) scale(calc(0.82 + var(--p3) * 0.18));
+  opacity: var(--p3);
+}
+
+.folder-front {
+  position: absolute; inset: 0; z-index: 3;
+  border-radius: 20px; border: 1.5px solid var(--ink); background: #fff;
+  transform-origin: 50% 100%;
+  transform: rotateX(calc(var(--pf) * -100deg));
+  opacity: calc(1 - var(--pf) * 0.85);
+}
+
+.folder-tab {
+  position: absolute; top: -26px; left: 30px;
+  background: var(--ink); color: #fff;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 7px 16px; border-radius: 8px 8px 0 0;
+}
+
+.folder-hint {
+  font-size: 13px; color: var(--ink-3); letter-spacing: 0.02em;
+  opacity: clamp(0, calc(1 - var(--p) * 6), 1);
+}
+
+/* On a phone, three cards side by side leaves about nine characters a line.
+   They stack instead — same stagger, same reveal, just down the folder. */
+@media (max-width: 780px) {
+  .folder-hero { height: 250vh; }
+  .folder-pin { min-height: 480px; gap: 18px; }
+  .folder-stage { height: min(360px, 48vh); }
+  .folder-doc-card { width: 88%; left: 6%; right: auto; padding: 11px 14px; }
+  .folder-doc-card h4 { font-size: 12.5px; margin-bottom: 4px; }
+  .folder-doc-card p { font-size: 11px; }
+
+  .fdc-1 { top: 7%; }
+  .fdc-2 {
+    top: 38%; left: 6%;
+    transform: translateY(calc(6px - var(--p2) * 34px)) scale(calc(0.82 + var(--p2) * 0.18));
+  }
+  .fdc-3 { top: 69%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .folder-hero { height: auto; }
+  .folder-pin { position: static; height: auto; min-height: 0; padding: 60px 0; }
+
+  /* --p falls back to 1, so the folder renders already-open. The cover would
+     otherwise sit at rotateX(-100deg) and hang below the folder as a stray
+     diagonal — there is nothing left for it to reveal, so drop it. */
+  .folder-front { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Services — asymmetric rows, not three identical cards
+   -------------------------------------------------------------------------- */
+.svc { background: var(--surface); padding: clamp(88px, 12vw, 148px) 0; }
+.svc-row {
+  display: grid; grid-template-columns: 92px 1fr; gap: 30px;
+  padding: 46px 0; border-top: 1px solid var(--line);
+}
+.svc-row:last-child { border-bottom: 1px solid var(--line); }
+.svc-n {
+  font-size: 14px; font-weight: 600; letter-spacing: 0.1em; color: var(--gold);
+  padding-top: 7px;
+}
+.svc-body h3 { margin-bottom: 16px; }
+.svc-body p { max-width: 40em; color: var(--ink-2); line-height: 1.6; }
+.svc-out {
+  margin-bottom: 0 !important;
+  font-size: 15px; color: var(--ink) !important; font-weight: 500;
+}
+
+/* --------------------------------------------------------------------------
+   About
+   -------------------------------------------------------------------------- */
+.about { padding: clamp(88px, 12vw, 148px) 0; }
+.about-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 62px; }
+.about-l { position: sticky; top: 104px; align-self: start; }
+.about-r p { color: var(--ink-2); line-height: 1.65; max-width: 38em; }
+.about-r .big {
+  font-size: clamp(1.2rem, 1.9vw, 1.45rem);
+  line-height: 1.45; color: var(--ink); letter-spacing: -0.018em;
+  margin-bottom: 1.3em;
+}
+.signoff {
+  margin-top: 40px; padding-top: 26px; border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 22px; flex-wrap: wrap;
+  font-size: 15px; color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   FAQ
+   -------------------------------------------------------------------------- */
+.faq { background: var(--surface); padding: clamp(88px, 12vw, 148px) 0; }
+.faq-list { border-top: 1px solid var(--line); }
+
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary {
+  list-style: none; cursor: pointer;
+  padding: 26px 44px 26px 0; position: relative;
+  font-size: clamp(1.05rem, 1.6vw, 1.22rem);
+  font-weight: 500; letter-spacing: -0.018em;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: ""; position: absolute; right: 6px; top: 50%;
+  width: 13px; height: 13px; margin-top: -7px;
+  background:
+    linear-gradient(var(--ink), var(--ink)) center/13px 1.5px no-repeat,
+    linear-gradient(var(--ink), var(--ink)) center/1.5px 13px no-repeat;
+  transition: transform 0.3s var(--ease);
+}
+.faq details[open] summary::after { transform: rotate(135deg); }
+.faq summary:hover { color: var(--ink-2); }
+.faq details > div { padding: 0 60px 30px 0; }
+.faq details p {
+  margin: 0; color: var(--ink-2); line-height: 1.65; max-width: 46em;
+}
+
+/* --------------------------------------------------------------------------
+   Book
+   -------------------------------------------------------------------------- */
+.book {
+  background: var(--ink); color: #fff; text-align: center;
+  padding: clamp(96px, 13vw, 164px) 0;
+}
+.book .kicker { color: var(--gold); }
+.book-sub {
+  max-width: 34em; margin: 26px auto 0;
+  font-size: clamp(1.05rem, 1.6vw, 1.24rem);
+  line-height: 1.5; color: rgba(255,255,255,0.66);
+}
+.book-cta {
+  display: flex; gap: 16px; justify-content: center;
+  margin-top: 46px; flex-wrap: wrap;
+}
+.book-mail { margin: 34px 0 0; font-size: 14px; color: rgba(255,255,255,0.42); }
+.book-mail a { color: rgba(255,255,255,0.75); text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.28); }
+.book-mail a:hover { color: #fff; }
+.book-mail .sep { padding: 0 12px; }
+
+/* On a phone the number and the address stop fitting on one line, and a
+   wrapped separator dangling at the end of a line looks like a typo. */
+@media (max-width: 560px) {
+  .book-mail a { display: block; }
+  .book-mail .sep { display: none; }
+  .book-mail a + a { margin-top: 10px; }
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+.foot { background: var(--surface); padding: 62px 0 46px; }
+.foot-top {
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 26px; flex-wrap: wrap;
+  padding-bottom: 26px; border-bottom: 1px solid var(--line);
+}
+.foot-links { display: flex; gap: 22px; flex-wrap: wrap; }
+.foot-links a { font-size: 13px; color: var(--ink-2); text-decoration: none; }
+.foot-links a:hover { color: var(--ink); }
+
+.foot-note {
+  margin: 26px 0 0; font-size: 12px; line-height: 1.65;
+  color: var(--ink-3); max-width: 64em;
+}
+.foot-legal {
+  display: flex; justify-content: space-between; gap: 22px; flex-wrap: wrap;
+  margin: 26px 0 0; font-size: 12px; color: var(--ink-3);
+}
+
+/* --------------------------------------------------------------------------
+   Custom cursor — a precise dot plus a trailing ring that grows over
+   anything clickable. Both use mix-blend-mode: difference so they read
+   correctly over the light sections, the dark ones, and text, without any
+   per-section colour overrides.
+   -------------------------------------------------------------------------- */
+html.custom-cursor,
+html.custom-cursor * {
+  cursor: none !important;
+}
+
+.cur-dot, .cur-ring {
+  position: fixed;
+  top: 0; left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0;
+  will-change: transform;
+  transition: opacity 0.2s;
+}
+
+.cur-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  mix-blend-mode: difference;
+}
+
+.cur-ring {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid #fff;
+  mix-blend-mode: difference;
+  transition: opacity 0.2s, width 0.28s var(--ease), height 0.28s var(--ease),
+              border-color 0.15s, background 0.15s;
+}
+
+.cur-ring.cur-hover {
+  width: 56px; height: 56px;
+  mix-blend-mode: normal;
+  border-color: var(--gold);
+  background: rgba(200, 149, 47, 0.12);
+}
+
+.cur-ring.cur-down {
+  width: 26px; height: 26px;
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  html.custom-cursor, html.custom-cursor * { cursor: auto !important; }
+  .cur-dot, .cur-ring { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+@media (max-width: 940px) {
+  .about-grid { grid-template-columns: 1fr; gap: 34px; }
+  .about-l { position: static; }
+  .case-cols { grid-template-columns: 1fr; gap: 40px; }
+}
+
+@media (max-width: 780px) {
+  .nav-links { display: none; }
+  .nav .btn-sm { display: none; }
+  .nav-toggle { display: block; }
+  .nav-drawer[data-open="true"] { display: block; }
+
+  .approach-grid { grid-template-columns: 1fr; gap: 34px; }
+  .econ-key { grid-template-columns: 1fr; }
+  .svc-row { grid-template-columns: 1fr; gap: 12px; padding: 36px 0; }
+  .case-head { flex-direction: column; gap: 20px; }
+  .book-cta .btn-lg { width: 100%; text-align: center; }
+}
+
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .foot-legal { flex-direction: column; gap: 8px; }
+}
