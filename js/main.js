@@ -52,6 +52,15 @@
     }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
 
     revealables.forEach(el => ro.observe(el));
+
+    /* Safety net: some browser contexts (throttled background tabs, certain
+       extensions, slow first paint) delay or skip the observer's first
+       callback entirely, which would otherwise leave the whole page
+       invisible. If reveal hasn't happened on its own shortly after load,
+       force it — visitors should never see a blank page over an animation. */
+    window.setTimeout(function () {
+      revealables.forEach(el => el.classList.add('in'));
+    }, 1500);
   }
 
   /* ------------------------------------------------------- stat count-ups */
